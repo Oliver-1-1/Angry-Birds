@@ -1,0 +1,4 @@
+# Constants
+
+WIDTH, HEIGHT = 1366,719
+GRAVITATION = 9.82
