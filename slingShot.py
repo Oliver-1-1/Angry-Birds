@@ -38,7 +38,7 @@ class SlingShot:
                 pygame.draw.line(window, (250, 0, 0), (coord_list[x][0] * 40, 719 - (coord_list[x][1] * 40)),
                                  (coord_list[x + 1][0] * 40, 719 - (coord_list[x + 1][1] * 40)))
 
-    def controls(self, event, bird_object):
+    def controls(self, event):
         if event.key == pygame.K_w:
             if self.AngleStart < 85:  # clamp angle
                 self.AngleStart += self.AngleIncrement
@@ -56,5 +56,3 @@ class SlingShot:
             if self.Speed > 1:  # clamp speed
                 self.Speed -= self.SpeedIncrement
 
-        if event.key == pygame.K_SPACE:
-            bird_object.IsBirdShot = True

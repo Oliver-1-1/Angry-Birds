@@ -1,13 +1,26 @@
 import pygame
 import contants
+import pymunk as pm
+from pymunk import Vec2d
 class Bird:
-    def __init__(self, image_path):
-        self.BirdImage = pygame.image.load(image_path)
-        self.BirdRect = self.BirdImage.get_rect()
-        self.BirdRect.center = (0, contants.HEIGHT - 6 * 40)
-        self.IsBirdShot = False
-        self.ShootIndex = 1
-        self.time = 0
+    def __init__(self, distance, angle, x, y, space):
+        self.life = 20
+        mass = 5
+        radius = 12
+        inertia = pm.moment_for_circle(mass, 0, radius, (0, 0))
+        body = pm.Body(mass, inertia)
+        body.position = x, y
+        power = distance * 53
+        impulse = power * Vec2d(1, 0)
+        angle = -angle
+        body.apply_impulse_at_local_point(impulse.rotated(angle))
+        shape = pm.Circle(body, radius, (0, 0))
+        shape.elasticity = 0.95
+        shape.friction = 1
+        shape.collision_type = 0
+        space.add(body, shape)
+        self.body = body
+        self.shape = shape
 
     def draw_bird(self, window):
         window.blit(self.BirdImage, self.BirdRect)
