@@ -10,7 +10,7 @@ class SlingShot:
         self.AngleStart = 20
         self.AngleIncrement = 5
         self.Speed = 15
-        self.SpeedIncrement = 1
+        self.SpeedMultiplayer = 1
 
         self.Player1Up = pygame.K_w
         self.Player1Down = pygame.K_s
@@ -23,10 +23,9 @@ class SlingShot:
         coord_list = []
         coord_list.clear()
 
-        x_vel = math.cos(math.radians(self.AngleStart)) * self.Speed
-        y_vel = math.sin(math.radians(self.AngleStart)) * self.Speed
-
-        for x in numpy.arange(0, 35.0, 0.3):
+        x_vel = math.cos(math.radians(self.AngleStart)) * self.Speed * self.SpeedMultiplayer
+        y_vel = math.sin(math.radians(self.AngleStart)) * self.Speed * self.SpeedMultiplayer
+        for x in numpy.arange(0,35.0, 0.3):
             coord_list.append((x, self.YStartPos + (y_vel / x_vel) * x - (contants.GRAVITATION * (x / x_vel) ** 2) / 2))
 
         return coord_list
@@ -35,8 +34,8 @@ class SlingShot:
     def draw_parabola(window, coord_list):
         for x in range(len(coord_list) - 1):
             if coord_list[x][0] <= 20:
-                pygame.draw.line(window, (250, 0, 0), (coord_list[x][0] * 40, 719 - (coord_list[x][1] * 40)),
-                                 (coord_list[x + 1][0] * 40, 719 - (coord_list[x + 1][1] * 40)))
+                pygame.draw.line(window, (250, 0, 0), (coord_list[x][0] * 40, 810 - (coord_list[x][1] * 40)),
+                                 (coord_list[x + 1][0] * 40, 810 - (coord_list[x + 1][1] * 40)))
 
     def controls(self, event):
         if event.key == pygame.K_w:
@@ -49,10 +48,10 @@ class SlingShot:
 
         if event.key == pygame.K_d:
 
-            if self.Speed < 20:  # clamp speed
-                self.Speed += self.SpeedIncrement
+            if self.SpeedMultiplayer < 5:  # clamp speed
+                self.SpeedMultiplayer += 0.1
 
         if event.key == pygame.K_a:
-            if self.Speed > 1:  # clamp speed
-                self.Speed -= self.SpeedIncrement
+            if self.SpeedMultiplayer > 0:  # clamp speed
+                self.SpeedMultiplayer -= 0.1
 

@@ -9,10 +9,7 @@ class Level():
         self.space = space
         self.number = 0
         self.number_of_birds = 4
-        # lower limit
-        self.one_star = 30000
-        self.two_star = 40000
-        self.three_star = 60000
+
         self.bool_space = False
 
     def open_flat(self, x, y, n):
@@ -72,9 +69,7 @@ class Level():
         self.number_of_birds = 4
         if self.bool_space:
             self.number_of_birds = 8
-        self.one_star = 30000
-        self.two_star = 40000
-        self.three_star = 60000
+
 
     def load_level(self):
         try:
