@@ -1,9 +1,9 @@
 from physics import Polygon
+from pig import Pig
 
-
-class Level():
-    def __init__(self, columns, beams, space):
-
+class Level:
+    def __init__(self, columns, beams, space, pigs):
+        self.pigs = pigs
         self.columns = columns
         self.beams = beams
         self.space = space
@@ -12,48 +12,11 @@ class Level():
 
         self.bool_space = False
 
-    def open_flat(self, x, y, n):
-        """Create a open flat struture"""
-        y0 = y
-        for i in range(n):
-            y = y0+100+i*100
-            p = (x, y)
-            self.columns.append(Polygon(p, 20, 85, self.space))
-            p = (x+60, y)
-            self.columns.append(Polygon(p, 20, 85, self.space))
-            p = (x+30, y+50)
-            self.beams.append(Polygon(p, 85, 20, self.space))
-
-    def closed_flat(self, x, y, n):
-        """Create a closed flat struture"""
-        y0 = y
-        for i in range(n):
-            y = y0+100+i*125
-            p = (x+1, y+22)
-            self.columns.append(Polygon(p, 20, 85, self.space))
-            p = (x+60, y+22)
-            self.columns.append(Polygon(p, 20, 85, self.space))
-            p = (x+30, y+70)
-            self.beams.append(Polygon(p, 85, 20, self.space))
-            p = (x+30, y-30)
-            self.beams.append(Polygon(p, 85, 20, self.space))
-
-    def horizontal_pile(self, x, y, n):
-        """Create a horizontal pile"""
-        y += 70
-        for i in range(n):
-            p = (x, y+i*20)
-            self.beams.append(Polygon(p, 85, 20, self.space))
-
-    def vertical_pile(self, x, y, n):
-        """Create a vertical pile"""
-        y += 10
-        for i in range(n):
-            p = (x, y+85+i*85)
-            self.columns.append(Polygon(p, 20, 85, self.space))
-
     def build_0(self):
-        """level 0"""
+        pig1 = Pig(980, 100, self.space)
+        pig2 = Pig(980, 182, self.space)
+        self.pigs.append(pig1)
+        self.pigs.append(pig2)
         p = (950, -50)
         self.columns.append(Polygon(p, 20, 85, self.space))
         p = (1010, -50)
@@ -69,7 +32,6 @@ class Level():
         self.number_of_birds = 4
         if self.bool_space:
             self.number_of_birds = 8
-
 
     def load_level(self):
         try:

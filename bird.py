@@ -4,39 +4,34 @@ import pymunk as pm
 from pymunk import Vec2d
 import math
 import slingShot
+import contants
+
+
 class Bird:
-    def __init__(self, distance, angle, x, y, space, slingShotSpeed):
-        self.life = 20
-        mass = 5
-        radius = 12
-        inertia = pm.moment_for_circle(mass, 0, radius, (0, 0))
-        body = pm.Body(mass, inertia)
+    def __init__(self, angle, x, y, space, sling_shot_speed):
+
+        # Create circle shaped body
+        body = pm.Body(5, pm.moment_for_circle(5, 0, 12, (0, 0)))
         body.position = x, y
-        power = 100 * 47.5 * slingShotSpeed
-        impulse = power * Vec2d(1, 0)
-        angle = -angle
-        body.apply_impulse_at_local_point(impulse.rotated(math.radians(-angle)))
-        shape = pm.Circle(body, radius, (0, 0))
+        shape = pm.Circle(body, 12, (0, 0))
         shape.elasticity = 0.95
         shape.friction = 1
         shape.collision_type = 0
         space.add(body, shape)
+
+        # Apply an impulse so it moves
+        power = 100 * 47.5 * sling_shot_speed
+        impulse = power * Vec2d(1, 0)
+        body.apply_impulse_at_local_point(impulse.rotated(math.radians(angle)))
+
         self.body = body
         self.shape = shape
 
-    def draw_bird(self, window):
-        window.blit(self.BirdImage, self.BirdRect)
+    @staticmethod
+    def draw_bird(window, birds_list, bird_image):
+        for bird in birds_list:
+            x, y = contants.to_pygame(bird.shape.body.position)
+            x -= 22
+            y -= 22
+            window.blit(bird_image, (x, y))
 
-    def move_bird(self, cords, dt):
-        if dt > 0.005:
-            if self.IsBirdShot:
-                self.BirdRect.center = (cords[self.ShootIndex][0] * 40, 719 - (cords[self.ShootIndex][1] * 40))
-                self.ShootIndex += 1
-
-                # Respawn bird
-                if self.BirdRect.centery > contants.HEIGHT or self.BirdRect.centerx > contants.WIDTH:
-                    self.BirdRect.center = (0, contants.HEIGHT - 6 * 40)
-                    print("hi")
-                    self.IsBirdShot = False
-                    self.ShootIndex = 0
-        self.time = 0
