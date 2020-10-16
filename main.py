@@ -10,15 +10,18 @@ import pymunk as pm
 import math
 import physics
 from pig import Pig
+import cannon
 # Init
 pygame.init()
 window = pygame.display.set_mode((contants.WIDTH, contants.HEIGHT))
 clock = pygame.time.Clock()
+IMAGE = pygame.Surface((140, 60), pygame.SRCALPHA)
 
 # Objects
 Background = background.Background("images\\background.png")
 SlingShot = slingShot.SlingShot()
 Physics = physics.Physics()
+Cannon = cannon.Cannon()
 
 # Booleans
 Running = True
@@ -37,9 +40,6 @@ def post_solve_bird_pig(arbiter, space, _):
         a, b = arbiter.shapes
         bird_body = a.body
         pig_body = b.body
-        p = contants.to_pygame(bird_body.position)
-        p2 = contants.to_pygame(pig_body.position)
-        r = 30
 
         pigs_to_remove = []
         for pig in pigs:
@@ -85,15 +85,14 @@ while Running:
 
         angle_degrees = math.degrees(pig.body.angle)
         img = pygame.transform.rotate(pigImage, angle_degrees)
-        w, h = img.get_size()
-        x -= w * 0.5
-        y -= h * 0.5
+
         window.blit(img, (x, y))
     ParabolaList = SlingShot.calculate_parabola()
 
     # Draw
     Background.draw_background(window)
-
+    Cannon.rotate_barrel(IMAGE)
+    Cannon.draw_cannon(window, IMAGE)
     Physics.draw_polygons(window)
     Bird.draw_bird(window, birds, redbird)
 

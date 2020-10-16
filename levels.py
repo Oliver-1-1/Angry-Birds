@@ -13,8 +13,8 @@ class Level:
         self.bool_space = False
 
     def build_0(self):
-        pig1 = Pig(980, 100, self.space)
-        pig2 = Pig(980, 182, self.space)
+        pig1 = Pig(980, 110, self.space)
+        pig2 = Pig(980, 192, self.space)
         self.pigs.append(pig1)
         self.pigs.append(pig2)
         p = (950, -50)
