@@ -12,11 +12,6 @@ class SlingShot:
         self.Speed = 15
         self.SpeedMultiplayer = 1
 
-        self.Player1Up = pygame.K_w
-        self.Player1Down = pygame.K_s
-
-        self.Player2Up = pygame.K_UP
-        self.Player2Down = pygame.K_DOWN
         self.YStartPos = 6
 
     def calculate_parabola(self):

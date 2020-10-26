@@ -20,8 +20,7 @@ class Bird:
         space.add(body, shape)
 
         # Apply an impulse so it moves
-        power = 100 * 47.5 * sling_shot_speed
-        impulse = power * Vec2d(1, 0)
+        impulse = 100 * 47.5 * sling_shot_speed * Vec2d(1, 0)
         body.apply_impulse_at_local_point(impulse.rotated(math.radians(angle)))
 
         self.body = body

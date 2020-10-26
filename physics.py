@@ -13,7 +13,7 @@ class Physics:
 
     def post_solve_bird_wood(self, arbiter, space, _):
         poly_to_remove = []
-        if arbiter.total_impulse.length > 1100:
+        if arbiter.total_impulse.length > 1200:
             a, b = arbiter.shapes
             for column in self.columns:
                 if b == column.shape:
@@ -28,25 +28,24 @@ class Physics:
                     self.beams.remove(poly)
             space.remove(b, b.body)
 
-
-
     def draw_polygons(self, window):
         for column in self.columns:
-            column.draw_poly('columns', window)
+            column.draw_poly(2, window)
         for beam in self.beams:
-            beam.draw_poly('beams', window)
+            beam.draw_poly(1, window)
 
 
 class Polygon:
     def __init__(self, pos, length, height, space):
         self.body = pm.Body(5, 1000)
-        self.body.position = pos
+        self.body.position = Vec2d(pos)
 
         self.shape = pm.Poly.create_box(self.body, (length, height))
         self.shape.friction = 0.5
         self.shape.collision_type = 2
         space.add(self.body, self.shape)
 
+        # Get the texture from the atlas
         wood = pygame.image.load("images\\wood.png").convert_alpha()
         self.beam_image = wood.subsurface(pygame.Rect(251, 357, 86, 22)).copy()
 
@@ -55,20 +54,18 @@ class Polygon:
 
     def draw_poly(self, element, window):
         poly = self.shape
-        ps = poly.get_vertices()
-        ps.append(ps[0])
-        ps = map(contants.to_pygame, ps)
-        ps = list(ps)
 
-        if element == 'beams':
+        if element == 1:
             p = poly.body.position
             p = Vec2d(contants.to_pygame(p))
-            rotated_logo_img = pygame.transform.rotate(self.beam_image, math.degrees(poly.body.angle) + 180)
+            angle_degrees = math.degrees(poly.body.angle) + 180
+            rotated_logo_img = pygame.transform.rotate(self.beam_image, angle_degrees)
             offset = Vec2d(rotated_logo_img.get_size()) / 2.
-            p -= offset
-            window.blit(rotated_logo_img, (p.x, p.y))
+            p = p - offset
+            np = p
+            window.blit(rotated_logo_img, (np.x, np.y))
 
-        if element == 'columns':
+        if element == 2:
             p = poly.body.position
             p = Vec2d(contants.to_pygame(p))
             angle_degrees = math.degrees(poly.body.angle) + 180
@@ -76,8 +73,7 @@ class Polygon:
                                                        angle_degrees)
             offset = Vec2d(rotated_logo_img.get_size()) / 2.
             p = p - offset
-            np = p
-            window.blit(rotated_logo_img, (np.x, np.y))
+            window.blit(rotated_logo_img, (p.x, p.y))
 
     @staticmethod
     def create_ground(space):

@@ -13,31 +13,24 @@ class Level:
         self.bool_space = False
 
     def build_0(self):
-        pig1 = Pig(980, 110, self.space)
-        pig2 = Pig(980, 192, self.space)
+        pig1 = Pig(960, 110, self.space)
+        pig2 = Pig(960, 192, self.space)
         self.pigs.append(pig1)
         self.pigs.append(pig2)
-        p = (950, -50)
-        self.columns.append(Polygon(p, 20, 85, self.space))
-        p = (1010, -50)
-        self.columns.append(Polygon(p, 20, 85, self.space))
-        p = (980, 20)
-        self.beams.append(Polygon(p, 85, 20, self.space))
-        p = (950, 70)
-        self.columns.append(Polygon(p, 20, 85, self.space))
-        p = (1010, 70)
-        self.columns.append(Polygon(p, 20, 85, self.space))
-        p = (980, 110)
-        self.beams.append(Polygon(p, 85, 20, self.space))
+
+        self.beams.append(Polygon((960, 110), 85, 20, self.space))
+        self.beams.append(Polygon((960, 20), 85, 20, self.space))
+
+        self.columns.append(Polygon((930, -50), 20, 85, self.space))
+        self.columns.append(Polygon((990, -50), 20, 85, self.space))
+        self.columns.append(Polygon((930, 70), 20, 85, self.space))
+        self.columns.append(Polygon((990, 70), 20, 85, self.space))
+
         self.number_of_birds = 4
         if self.bool_space:
             self.number_of_birds = 8
 
     def load_level(self):
-        try:
-            build_name = "build_" + str(self.number)
-            getattr(self, build_name)()
-        except AttributeError:
-            self.number = 0
-            build_name = "build_" + str(self.number)
-            getattr(self, build_name)()
+        build_name = "build_" + str(self.number)
+        getattr(self, build_name)()
+
